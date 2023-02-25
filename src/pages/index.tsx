@@ -1,16 +1,19 @@
-import Head from 'next/head'
-import Image from 'next/image'
 import { Inter } from 'next/font/google'
 import styles from '@/styles/Home.module.css'
-
-const inter = Inter({ subsets: ['latin'] })
+import Tester from '@/components/tester';
+import TesterStatic from '@/components/tester-static';
 
 export default function Home() {
+  const number = 30000;
+  const elems = [];
+  
+  for (let i=0; i<number; i++) {
+    i%2==0 ? elems.push(<Tester id={i} key={i} />) : elems.push(<TesterStatic id={i} key={i} />) 
+  }
   return (
     <>
       <main>
-        <div>block1</div>
-        <div>block2</div>
+        {elems}
       </main>
     </>
   )
