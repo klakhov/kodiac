@@ -1,11 +1,16 @@
-import React from "react"
+import React, { Component } from "react";
 
-interface Props {
-    id: number
-}
+export default class Tester extends Component {
+  static defaultProps = {
+    id: "1"
+  };
 
-export default function Tester(props: Props): JSX.Element {
-    const { id } = props;
+  componentDidMount() {
+    console.log("Lifecycle works: Teaser did mount");
+  }
+
+  render() {
+    const { id } = this.props;
     return (
         <div>
             Hello im tester #{id}
@@ -15,5 +20,6 @@ export default function Tester(props: Props): JSX.Element {
             <input type="text" name="name" />
             <input type="submit" value="Submit" />
         </div>
-    )
+    );
+  };
 }
