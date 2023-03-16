@@ -1,4 +1,5 @@
-import { h, render, ComponentType } from "preact";
+import { h, render } from "preact";
+import { ComponentType } from "react";
 import showHydrationWarnings from "./errors/hydrationWarnings";
 import {
   getMarkers,

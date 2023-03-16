@@ -1,9 +1,10 @@
 import React, { Component } from "react";
 
-export default class Tester extends Component {
+export default class Tester extends React.Component<{ id: number}, {}> {
   static defaultProps = {
-    id: "1"
+    id: 1
   };
+
 
   componentDidMount() {
     console.log("Lifecycle works: Teaser did mount");

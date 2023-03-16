@@ -1,4 +1,4 @@
-import { FunctionComponent } from "preact";
+import { h } from "preact";
 import { Component, ComponentType } from "react";
 import { getComponentName } from "./util";
 
@@ -15,7 +15,7 @@ export default class HydrationData extends Component {
   private static currentHid: number = 0;
   private static data: HydrationDataDescriptor<{}> = {};
 
-  public static storeProps<P>(Component: ComponentType, props: any): string {
+  public static storeProps<P>(Component: ComponentType<P>, props: any): string {
     const hid = (++HydrationData.currentHid).toString();
     const name = getComponentName(Component);
     HydrationData.data[hid] = { name, props };

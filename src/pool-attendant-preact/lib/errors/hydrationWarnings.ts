@@ -1,4 +1,4 @@
-import { ComponentType } from "preact";
+import { ComponentType } from "react";
 import {
   HydrationDataDescriptor,
   ComponentDataDescriptor

@@ -9,8 +9,8 @@ export interface ComponentMap {
   [name: string]: ComponentType<any>;
 }
 
-export function getComponentName(
-  component: ComponentType
+export function getComponentName<P>(
+  component: ComponentType<P>
 ): string {
   const compName = component.displayName || component.name;
   if (!compName) throw new NameError();
