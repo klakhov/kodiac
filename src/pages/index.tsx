@@ -6,7 +6,7 @@ import HydrationData from "../pool-attendant-preact/lib/hydrationData";
 import withHydration from "../pool-attendant-preact/lib/withHydration";
 
 export default function Home() {
-  const number = 30000;
+  const number = 1000;
   const elems = [];
   
   const HydratedTester = withHydration(Tester);
