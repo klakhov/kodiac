@@ -4,7 +4,7 @@ import Tester from '@/components/tester';
 import TesterStatic from '@/components/tester-static';
 
 export default function Home() {
-  const number = 2500;
+  const number = 5000;
   const elems = [];
   
   for (let i=0; i<number; i++) {
