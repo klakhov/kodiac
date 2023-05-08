@@ -34,3 +34,7 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+/blog-sub/node_modules
+/blog-sub/**.css
+/blog-sub/**/*.css
