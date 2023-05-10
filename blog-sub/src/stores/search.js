@@ -1,14 +1,15 @@
 import Reflux  from 'reflux';
 import Actions from 'actions';
 
-export default Reflux.createStore({
-	listenables: Actions,
-	// called when mixin is used to init the component state
-	getInitialState: function () { 
-		return this.query;
-	},
-	onSearch: function (search) {
-		this.query = search;
-		this.trigger(search);
+export default class SearchStore extends Reflux.Store {
+    constructor() {
+        super();
+        this.listenToMany(Actions);
+        this.state = {
+            query: '',
+        }
+    }
+	onSearch(search) {
+		this.setState({query: search});
 	}
-}); 
+}

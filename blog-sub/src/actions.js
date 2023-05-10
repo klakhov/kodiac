@@ -4,6 +4,9 @@ export default Reflux.createActions({
 	'getPost': {
 		asyncResult: true
 	},
+    'getPostsByPage': {
+		asyncResult: true
+	},
 	'modifyPost': {
 		asyncResult: true
 	},

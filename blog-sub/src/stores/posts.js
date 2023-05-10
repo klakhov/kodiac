@@ -3,10 +3,17 @@ import Actions from 'actions';
 import Request from 'superagent';
 import Config  from 'appConfig';
 
-export default Reflux.createStore({
-	listenables: Actions,
-	endpoint: Config.apiRoot + '/posts',
-	getPostsByPage: function (page = 1, params) {
+export default class PostStore extends Reflux.Store {
+    constructor() {
+        super();
+        this.listenToMany(Actions);
+        this.state = {
+            currentRequest: null,
+            posts: [],
+            endpoint: Config.apiRoot + '/posts',
+        }
+    }
+	onGetPostsByPage(page=1, params) {
 		var start   = Config.pageSize * (page-1)
 		,   end     = start + Config.pageSize
 		,   query   = {
@@ -30,7 +37,7 @@ export default Reflux.createStore({
 		} 
 
 		return new Promise(function (resolve, reject) {
-			us.currentRequest = Request.get(us.endpoint);
+			us.currentRequest = Request.get(this.state.endpoint);
 			us.currentRequest
 				.query(query)
 				.end(function (err, res) {
@@ -50,6 +57,7 @@ export default Reflux.createStore({
 								return params.user ? post.user == params.user : true;
 							});
 						} 
+                        this.setState({posts: results});
 						Config.loadTimeSimMs ? setTimeout(complete, Config.loadTimeSimMs) : complete();
 					} else {
 						reject(Error(err));
@@ -59,12 +67,12 @@ export default Reflux.createStore({
 					this.currentRequest = null;
 				}.bind(us)); 
 		});
-	},
+	}
 	//-- ACTION HANDLERS
-	onGetPost: function (id) {
+	onGetPost(id) {
 		function req () {
 			Request
-				.get(this.endpoint)
+				.get(this.state.endpoint)
 				.query({
 					id: id
 				})
@@ -81,11 +89,11 @@ export default Reflux.createStore({
 				});
 		}
 		Config.loadTimeSimMs ? setTimeout(req.bind(this), Config.loadTimeSimMs) : req();
-	},
-	onModifyPost: function (post, id) {
+	}
+	onModifyPost(post, id) {
 		function req () {
 			Request
-				[id ? 'put' : 'post'](id ? this.endpoint+'/'+id : this.endpoint)
+				[id ? 'put' : 'post'](id ? this.state.endpoint+'/'+id : this.state.endpoint)
 				.send(post)
 				.end(function (err, res) {
 					if (res.ok) {
@@ -97,4 +105,4 @@ export default Reflux.createStore({
 		}
 		Config.loadTimeSimMs ? setTimeout(req.bind(this), Config.loadTimeSimMs) : req();
 	}
-});
+}

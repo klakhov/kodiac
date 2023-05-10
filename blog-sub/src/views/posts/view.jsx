@@ -17,7 +17,7 @@ export default class View extends Reflux.Component {
         this.state = {
             post: props.post
         };
-        this.store = UserStore;
+        this.stores = [UserStore, Session];
     }
     componentWillMount() {
         if (this.state.post) {
