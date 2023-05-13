@@ -8,7 +8,6 @@ export default class PostStore extends Reflux.Store {
         super();
         this.listenToMany(Actions);
         this.state = {
-            currentRequest: null,
             posts: [],
             endpoint: Config.apiRoot + '/posts',
         }
@@ -31,42 +30,46 @@ export default class PostStore extends Reflux.Store {
 			Object.assign(query, params);
 		}
 
-		if (this.currentRequest) {
-			this.currentRequest.abort();
-			this.currentRequest = null;
-		} 
+        Request
+            .get(this.state.endpoint)
+            .end(function (err, res) {
+                if (res.ok) {
+                    this.setState({posts: res.body});
+                    this.trigger(this.state.posts);
+                }
+            }.bind(this));
 
-		return new Promise(function (resolve, reject) {
-			us.currentRequest = Request.get(this.state.endpoint);
-			us.currentRequest
-				.query(query)
-				.end(function (err, res) {
-					var results = res.body;
-					function complete () {
-						// unfortunately if multiple request had been made
-						// They would all get resolved on the first invocation of this
-						// Undesireable, when we are rapid firing searches
-						// Actions.getPostsByPage.completed({ start: query._start, end: query._end, results: results });
-						resolve({ start: query._start, end: query._end, results: results });
-					}
-					if (res.ok) {
-						// if q param (search) filter by other params, cause it doesn't
-						// problem with json-server, realistically we'd fix this on the server
-						if (params.q) {
-							results = results.filter(function (post) {
-								return params.user ? post.user == params.user : true;
-							});
-						} 
-                        this.setState({posts: results});
-						Config.loadTimeSimMs ? setTimeout(complete, Config.loadTimeSimMs) : complete();
-					} else {
-						reject(Error(err));
-						// same outcome as above
-						// Actions.getPostsByPage.failed(err);
-					}
-					this.currentRequest = null;
-				}.bind(us)); 
-		});
+        // return new Promise((resolve, reject) => {
+		// 	us.currentRequest = Request.get(this.state.endpoint);
+		// 	us.currentRequest
+		// 		.query(query)
+		// 		.end(function (err, res) {
+		// 			var results = res.body;
+		// 			function complete () {
+		// 				// unfortunately if multiple request had been made
+		// 				// They would all get resolved on the first invocation of this
+		// 				// Undesireable, when we are rapid firing searches
+		// 				// Actions.getPostsByPage.completed({ start: query._start, end: query._end, results: results });
+		// 				resolve({ start: query._start, end: query._end, results: results });
+		// 			}
+		// 			if (res.ok) {
+		// 				// if q param (search) filter by other params, cause it doesn't
+		// 				// problem with json-server, realistically we'd fix this on the server
+		// 				if (params.q) {
+		// 					results = results.filter(function (post) {
+		// 						return params.user ? post.user == params.user : true;
+		// 					});
+		// 				}
+        //                 this.setState({posts: results});
+		// 				Config.loadTimeSimMs ? setTimeout(complete, Config.loadTimeSimMs) : complete();
+		// 			} else {
+		// 				reject(Error(err));
+		// 				// same outcome as above
+		// 				// Actions.getPostsByPage.failed(err);
+		// 			}
+		// 			this.currentRequest = null;
+		// 		}.bind(us));
+		// });
 	}
 	//-- ACTION HANDLERS
 	onGetPost(id) {

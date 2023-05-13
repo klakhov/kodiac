@@ -9,7 +9,6 @@ export default class View extends Reflux.Component {
     }
     render() {
         const user = this.state.users.find((_user) => _user.id === parseInt(this.props.userId));
-
         // you must have a root element!
         return user ? (
             <div className={Classnames({

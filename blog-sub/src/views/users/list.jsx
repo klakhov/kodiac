@@ -4,6 +4,7 @@ import Reflux from 'reflux';
 import { Link } from 'react-router-dom';
 import UserStore from 'stores/users';
 import UserView from 'components/users/view';
+
 export default class List extends Reflux.Component {
     constructor(props){
         super(props);
@@ -28,9 +29,4 @@ export default class List extends Reflux.Component {
         );
     }
 }
-// export default React.createClass({
-//     mixins: [
-//         Reflux.connect(UserStore, 'users')
-//     ],
-// });
 

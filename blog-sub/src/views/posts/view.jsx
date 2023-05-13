@@ -14,9 +14,6 @@ let dateFormat = 'MM/DD/YYYY HH:mm:ss';
 export default class View extends Reflux.Component {
     constructor(props) {
         super(props);
-        this.state = {
-            post: props.post
-        };
         this.stores = [UserStore, Session];
     }
     componentWillMount() {
@@ -27,9 +24,7 @@ export default class View extends Reflux.Component {
         }
     }
     getUserFromPost(post) {
-        return Array.find(this.state.users, function (user) {
-            return user.id === post.user;
-        });
+        this.state.users.find((user) => user.id === post.user);
     }
     getPost() {
         // if (this.isMounted()) {
@@ -103,12 +98,4 @@ export default class View extends Reflux.Component {
         );
     }
 }
-
-// export default React.createClass({
-//     mixins: [
-//         Reflux.connect(Session, 'session'),
-//         Reflux.connect(UserStore, 'users')
-//     ],
-
-// });
 

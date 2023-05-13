@@ -1,9 +1,6 @@
 import React       from 'react';
-import ReactDOM    from 'react-dom';
 import Reflux       from 'reflux';
-import Config      from 'appConfig';
-import PostStore   from 'stores/posts';
-import SearchStore from 'stores/search';
+import ReactDOM    from 'react-dom';
 import PostView    from 'views/posts/view';
 import Loader      from 'components/loader';
 import Actions      from 'actions';
@@ -11,58 +8,56 @@ import Actions      from 'actions';
 export default class List extends Reflux.Component {
     constructor(props) {
         super(props);
-
-        this.stores = [PostStore, SearchStore];
         this.state = {
-			page: 1,
-		};
+            
+        };
     }
 
 	componentWillMount() {
-        console.log(this.state);
+        // console.log(this.state);
 		// this.searchUnsubscribe = SearchStore.listen(this.onSearch);
 		// this.getNextPage();
 	}
 	componentDidMount() {
-        console.log(this.state);
-		var ele = ReactDOM.findDOMNode(this).parentNode
-		,   style
-		;
-		while (ele) {
-			style = window.getComputedStyle(ele);
+        console.log(this.props);
+		// var ele = ReactDOM.findDOMNode(this).parentNode
+		// ,   style
+		// ;
+		// while (ele) {
+		// 	style = window.getComputedStyle(ele);
 
-			if (style.overflow.length ||
-				style.overflowY.length || 
-				/body/i.test(ele.nodeName)
-			) {
-				this.scrollParent = ele;
-				break;
-			} else {
-				ele = ele.parentNode;
-            }
-		}
-		this.scrollParent.addEventListener('scroll', this.onScroll);
+		// 	if (style.overflow.length ||
+		// 		style.overflowY.length || 
+		// 		/body/i.test(ele.nodeName)
+		// 	) {
+		// 		this.scrollParent = ele;
+		// 		break;
+		// 	} else {
+		// 		ele = ele.parentNode;
+        //     }
+		// }
+		// this.scrollParent.addEventListener('scroll', this.onScroll);
 	}
 	componentWillUnmount() {
 		// this.searchUnsubscribe();
-		this.scrollParent.removeEventListener('scroll', this.onScroll);
+		// this.scrollParent.removeEventListener('scroll', this.onScroll);
 	}
-	onSearch(search) {
-		this.setState({
-			page: 1,
-			search: search
-		});
-		this.getNextPage();
-	}
-	onScroll(e) {
-		var scrollEle  = this.scrollParent
-		,   scrollDiff = Math.abs(scrollEle.scrollHeight - (scrollEle.scrollTop + scrollEle.clientHeight))
-		;
+	// onSearch(search) {
+	// 	this.setState({
+	// 		page: 1,
+	// 		search: search
+	// 	});
+	// 	this.getNextPage();
+	// }
+	// onScroll(e) {
+	// 	var scrollEle  = this.scrollParent
+	// 	,   scrollDiff = Math.abs(scrollEle.scrollHeight - (scrollEle.scrollTop + scrollEle.clientHeight))
+	// 	;
 
-		if (!this.state.loading && !this.state.hitmax && scrollDiff < 100) {
-			this.getNextPage();
-		}
-	}
+	// 	if (!this.state.loading && !this.state.hitmax && scrollDiff < 100) {
+	// 		this.getNextPage();
+	// 	}
+	// }
 	getNextPage() {
 		this.setState({
 			loading: true
@@ -89,7 +84,7 @@ export default class List extends Reflux.Component {
 		// }.bind(this), function (err) {});
 	}
 	render() {
-		var postsUI = this.state.posts.map(function (post) {
+		var postsUI = this.props.posts?.map(function (post) {
 			return <PostView key={post.id} post={post} mode="summary"/>;
 		});
 
@@ -98,7 +93,7 @@ export default class List extends Reflux.Component {
 				<ul>
 					{postsUI}
 				</ul>
-				{this.state.hitmax && !this.state.loading ? 
+				{this.state.hitmax && !this.state.loading ?
 					(
 						<div className="total-posts-msg">
 							showing { this.state.posts.length } posts
