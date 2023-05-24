@@ -20,7 +20,7 @@ function App() {
     }, []);
 
     return (
-        <div className="App">
+        <div className="app-container">
             <Header />
             <Routes>
                 <Route path="/" element={<HomePage />} />

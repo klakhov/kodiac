@@ -9,25 +9,33 @@ function Header() {
 
     return (
         <header className="app-header">
-        <Link to="/"><h1>Re&#923;ction</h1></Link>
-        <section className="account-ctrl">
-            <input
-                type="search"
-                placeholder="search" />
-            {
-                loggedIn ?
-                    (<Link to="/posts/create">
-                        Hello {loggedUser.username}, write something!
-                    </Link>) :
-                    <Link to="/users/create">Join</Link>
-            }
-            {
-                loggedIn ?
-                    <a>Log Out</a> :
-                    <Link to="/login">Log In</Link>
-            }
-        </section>
-    </header>
+            <div>
+                <Link to="/">Posts</Link>
+                <Link to="/">News</Link>
+            </div>
+            <div className='app-logo'>
+                <Link to="/"><h1>BlogX</h1></Link>
+            </div>
+            <div>
+                <section className="account-ctrl">
+                    {/* <input
+                        type="search"
+                        placeholder="search" /> */}
+                    {
+                        loggedIn ?
+                            (<Link to="/posts/create">
+                                Hello {loggedUser.username}, write something!
+                            </Link>) :
+                            <Link to="/users/create">Join</Link>
+                    }
+                    {
+                        loggedIn ?
+                            <a>Log Out</a> :
+                            <Link to="/login">Log In</Link>
+                    }
+                </section>
+            </div>
+        </header>
     )
 }
 
