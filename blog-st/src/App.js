@@ -8,6 +8,7 @@ import { loadUsersAsync } from './store/user-reducer';
 import { loadPostsAsync } from './store/posts-reducer';
 import Header from './components/header';
 import LoginPage from './components/login-page';
+import PostPage from './components/post-page';
 
 
 function App() {
@@ -23,7 +24,7 @@ function App() {
             <Routes>
                 <Route path="/" element={<HomePage />} />
                 <Route path="/login" element={<LoginPage />} />
-
+                <Route path="/posts/:id" element={<PostPage />} />
             </Routes>
         </div>
     );

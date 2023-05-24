@@ -1,11 +1,11 @@
 import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux'
-// import './styles.scss';
+import PostListView from '../views/posts/list-view';
 
 function HomePage() {
-    const users = useSelector((state) => state.users.users);
     return (
-        <div className="cvat-billing-plans-page">
+        <div className="post-page">
+            <PostListView />
         </div>
     )
 }
