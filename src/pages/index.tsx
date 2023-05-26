@@ -6,12 +6,12 @@ import HydrationData from "../pool-attendant-preact/lib/hydrationData";
 import withHydration from "../pool-attendant-preact/lib/withHydration";
 
 export default function Home() {
-  const number = 2500;
+  const number = 1000;
   const elems = [];
   
   const HydratedTester = withHydration(Tester);
   for (let i=0; i<number; i++) {
-    i%4==0 ? elems.push(<HydratedTester id={i} key={i} />) : elems.push(<TesterStatic id={i} key={i} />) 
+    i%4!=0 ? elems.push(<HydratedTester id={i} key={i} />) : elems.push(<TesterStatic id={i} key={i} />) 
   }
   return (
     <>
